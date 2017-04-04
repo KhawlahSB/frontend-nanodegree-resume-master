@@ -10,8 +10,53 @@ var bio = {
              },
   "welcomeMessage": "Welcome to my resume",
   "skills":["HTML","CSS","PHP","javaScript","java"],
-  "bioPic": "images/ana.jpg",
-}
+  "biopic": "images/ana.jpg",
+    "display": function() {
+		var formattedHTMLheaderName = HTMLheaderName.replace("%data%", bio.name);
+
+		var formattedHTMLheaderRole = HTMLheaderRole.replace("%data%", bio.role);
+
+		var formattedHTMLmobile = HTMLmobile.replace("%data%", bio.contacts.mobile);
+
+		var formattedHTMLemail = HTMLemail.replace("%data%", bio.contacts.email);
+
+		var formattedHTMLgithub = HTMLgithub.replace("%data%", bio.contacts.github);
+
+		var formattedHTMLlocation = HTMLlocation.replace("%data%", bio.contacts.location);
+
+		var formattedHTMLbioPic = HTMLbioPic.replace("%data%", bio.biopic);
+
+		var formattedHTMLwelcomeMsg = HTMLwelcomeMsg.replace("%data%", bio.welcomeMessage);
+
+		/*Header*/
+		$("#header").prepend(formattedHTMLheaderRole);
+
+		$("#header").prepend(formattedHTMLheaderName);
+
+		$("#header").append(formattedHTMLbioPic);
+
+		$("#header").append(formattedHTMLwelcomeMsg);
+
+		/*Top Contacts & Footer Contacts*/
+		$("#topContacts, #footerContacts").append(formattedHTMLmobile);
+
+		$("#topContacts, #footerContacts").append(formattedHTMLemail);
+
+		$("#topContacts, #footerContacts").append(formattedHTMLgithub);
+
+		$("#topContacts, #footerContacts").append(formattedHTMLlocation);
+
+
+		if (bio.skills.length > 0) {
+			$("#header").append(HTMLskillsStart);
+			for (i = 0; i < bio.skills.length; i++) {
+				var formattedHTMLskills = HTMLskills.replace("%data%", bio.skills[i]);
+				$("#skills").append(formattedHTMLskills);
+        }
+    }
+   
+     }
+};
 
 
 var education =  {
@@ -20,16 +65,16 @@ var education =  {
     "name" : "Princess Nora bint Abdulrahman University",
     "location" : "Riyadh, Saudi Arabia",
     "degree" : "bachelor",
-    "majors" : "Computer Information System",
-    "date" : "may - 2013",
+    "majors" :[ "IS", "CS"],
+    "dates" : "may - 2013",
     "url": "http://www.pnu.edu.sa/" 
         },
              {
     "name" : "The British University in Dubai",
     "location" : "Dubai, United Arab Emirates",
     "degree" : "Master",
-    "majors" : "Project Management",
-    "date" : "nov - 2016",
+    "majors" :[ "Project Management","BS"],
+    "dates" : "nov - 2016",
     "url": "http://www.buid.ac.ae/" 
         }
          ],
@@ -37,14 +82,62 @@ var education =  {
     "onlineCourses" :[{
         "title" : "Fron end web", 
         "school" : "udacity", 
-        "date" : "feb 2017 - may 2017", 
+        "dates" : "feb 2017 - may 2017", 
         "url" : "https://www.udacity.com/"
     },
     {   "title" : "Programing with java language", 
         "school" : "rwaq.", 
-        "date" : "jan 2016 - march 2016", 
+        "dates" : "jan 2016 - march 2016", 
         "url" : "https://www.rwaq.org/"  
-}]
+}],
+   "display": function() {
+		if (education.schools.length > 0) {
+			education.schools.forEach(function(school) {
+				$("#education").append(HTMLschoolStart);
+
+				var formattedHTMLschoolName = HTMLschoolName.replace("%data%", school.name);
+
+				var formattedHTMLschoolDegree = HTMLschoolDegree.replace("%data%", school.degree);
+
+				var formattedHTMLschoolDates = HTMLschoolDates.replace("%data%", school.dates);
+
+				var formattedHTMLschoolLocation = HTMLschoolLocation.replace("%data%", school.location);
+
+				$(".education-entry:last").append(formattedHTMLschoolName + formattedHTMLschoolDegree);
+
+				$(".education-entry:last").append(formattedHTMLschoolDates);
+
+				$(".education-entry:last").append(formattedHTMLschoolLocation);
+
+				for (i=0; i<school.majors.length ;i++) {
+					var formattedHTMLschoolMajor = HTMLschoolMajor.replace("%data%", school.majors[i]);
+					$(".education-entry:last").append(formattedHTMLschoolMajor);
+				}
+			});
+		}
+
+		if (education.onlineCourses.length > 0) {
+			$("#education").append(HTMLonlineClasses);
+			education.onlineCourses.forEach(function(onlineCourse) {
+				$("#education").append(HTMLschoolStart);
+
+				var formattedHTMLonlineTitle = HTMLonlineTitle.replace("%data%", onlineCourse.title);
+
+				var formattedHTMLonlineSchool = HTMLonlineSchool.replace("%data%", onlineCourse.school);
+
+				var formattedHTMLonlineDates = HTMLonlineDates.replace("%data%", onlineCourse.dates);
+
+				var formattedHTMLonlineURL = HTMLonlineURL.replace("%data%", onlineCourse.url);
+
+				$(".education-entry:last").append(formattedHTMLonlineTitle + formattedHTMLonlineSchool);
+
+				$(".education-entry:last").append(formattedHTMLonlineDates);
+
+				$(".education-entry:last").append(formattedHTMLonlineURL);
+
+            });
+        }
+}
 };
 
 var work = {
@@ -53,17 +146,44 @@ var work = {
         "employer" : "Civil Affair",
         "title" : "Summer intern" ,
         "location" : "Riyadh, Saudi Arabia",
-        "date" : "june 2015 - sep 2015", 
+        "dates" : "june 2015 - sep 2015", 
         "description" : "Summer intern at Information Technology Department of ministerial agency of civil affairs. Work accomplished: (Technical support system) for IT department, applied using HTML, JavaScript, php and CSS." 
       },
       {
         "employer" : "Riyadh Bank",
         "title" : "Website manager" ,
         "location" : "Riyadh, Saudi Arabia",
-        "date" : "april 2016 - nov 2016", 
+        "dates" : "april 2016 - nov 2016", 
         "description" : "Manage the website of the bank and also social network accounts."  
       },
-  ]  
+  ],
+    "display": function() {
+		if (work.jobs.length > 0) {
+			work.jobs.forEach(function(job) {
+				$("#workExperience").append(HTMLworkStart);
+
+				var formattedHTMLworkEmployer = HTMLworkEmployer.replace("%data%", job.employer);
+
+				var formattedHTMLworkTitle = HTMLworkTitle.replace("%data%", job.title);
+
+				var formattedHTMLworkDates = HTMLworkDates.replace("%data%", job.dates);
+
+				var formattedHTMLworkLocation = HTMLworkLocation.replace("%data%", job.location);
+
+				var formattedHTMLworkDescription = HTMLworkDescription.replace("%data%", job.description);
+
+
+				$(".work-entry:last").append(formattedHTMLworkEmployer + formattedHTMLworkTitle);
+
+				$(".work-entry:last").append(formattedHTMLworkDates);
+
+				$(".work-entry:last").append(formattedHTMLworkLocation);
+
+				$(".work-entry:last").append(formattedHTMLworkDescription);
+   
+            });
+        }
+    }
 };
 
 var projects ={
@@ -72,137 +192,54 @@ var projects ={
         "title" : "Riyadh Metro Application",
         "dates" : "jan 2016 - may 2016",
         "description" : "Riyadh Metro Application using java programing language and MySQL (Senior Project): application for android operating system that serve Riyadh metro passengerto book a ticket and provide all services the metro provided, applied in android studio.",
-        "images": "images/RMP1.jpg"  
+        "images": [ "images/RMP1.png" , "images/RMP2.png"],
       
       },
       
       { "title" : "World Autism Day Event",
         "dates" : "march 2014 - april 2014",
         "description" : "“World Autism Day Event” website: website to registration in the event, applied using HTML, JavaScript, php, HTTP and CSS.",
-       "images": "images/W.jpg" 
+       "images":[ "images/W.jpg" ],
         
       },
         { "title" : "Restaurant guide website",
         "dates" : "feb 2015 - april 2015",
         "description" : "website that provide a lot of Riyadh's Restaurants with information, pictures, location and visitors rating, applied using HTML, JavaScript, php and CSS.",
-         "images": "images/Res.jpg" 
-      },
-  ]
+         "images":[ "images/Res.jpg" ],
+      }],
+    "display": function() {
+		if (projects.projects.length > 0) {
+			projects.projects.forEach(function(project) {
+				$("#projects").append(HTMLprojectStart);
+
+				var formattedHTMLprojectTitle = HTMLprojectTitle.replace("%data%", project.title);
+
+				var formattedHTMLprojectDates = HTMLprojectDates.replace("%data%", project.dates);
+
+				var formattedHTMLprojectDescription = HTMLprojectDescription.replace("%data%", project.description);
+				
+				$(".project-entry:last").append(formattedHTMLprojectTitle);
+				$(".project-entry:last").append(formattedHTMLprojectDates);
+				$(".project-entry:last").append(formattedHTMLprojectDescription);
+				
+				for(i=0; i<project.images.length; i++){
+					var formattedHTMLprojectImage = 		HTMLprojectImage.replace("%data%", project.images[i]);
+					$(".project-entry:last").append(formattedHTMLprojectImage);
+                       }
+
+            });
+        }
+   
+}
 };
 ///// returen function /////////////
 
-    bio.display = function(){
-         var formattedRole =  HTMLheaderRole.replace('%data%', bio.role);
-         $("#header").prepend(formattedRole);
-      
-        var formattedName =  HTMLheaderName.replace('%data%', bio.name);
-         $("#header").prepend(formattedName);
-        
-         var formattedMobile = HTMLmobile.replace("%data%", bio.contacts.mobile);
-    $('#topContacts:last').append(formattedMobile);
-    $('#footerContacts').append(formattedMobile)
-
-    var formattedEmail = HTMLemail.replace("%data%", bio.contacts.email);
-    $('#topContacts:last').append(formattedEmail);
-    $('#footerContacts').append(formattedEmail)
-
+bio.display();
+work.display();
+projects.display();
+education.display();
     
-    var formattedgit = HTMLgithub.replace("%data%", bio.contacts.github);
-    $('#topContacts:last').append(formattedgit);
-    $('#footerContacts').append(formattedgit)
+    $("#main").append(internationalizeButton);
 
-    var formattedLocation = HTMLlocation.replace("%data%", bio.contacts.location);
-    $('#topContacts:last').append(formattedLocation);
-    $('#footerContacts').append(formattedLocation)
-
-    var formattedBiopic = HTMLbioPic.replace("%data%", bio.bioPic);
-    $('#header').append(formattedBiopic);
-
-    var formattedMessage = HTMLwelcomeMsg.replace("%data%", bio.welcomeMessage);
-    $('#header').append(formattedMessage);
-
-
-    $('#header').append(HTMLskillsStart);
-    for (var skill = 0; skill < bio.skills.length; skill++) {
-        var formattedSkills = HTMLskills.replace("%data%", bio.skills[skill]);
-        $('#skills').append(formattedSkills);
-    }
-}();
-
-work.display = function() {
-    $('#workExperience').append(HTMLworkStart);
-    for (var job = 0; job < work.jobs.length; job++) {
-        var formattedEmployer = HTMLworkEmployer.replace("%data%", work.jobs[job].employer);
-        var formattedTitle = HTMLworkTitle.replace("%data%", work.jobs[job].title);
-        var formattedEmployerTitle = formattedEmployer + " " + formattedTitle;
-        $(".work-entry:last").append(formattedEmployerTitle);
-
-        var formattedLocation = HTMLworkLocation.replace("%data%", work.jobs[job].location);
-        $(".work-entry:last").append(formattedLocation);
-
-        var formattedDate = HTMLworkDates.replace("%data%", work.jobs[job].date);
-        $(".work-entry:last").append(formattedDate);
-
-        var formattedDescription = HTMLworkDescription.replace("%data%", work.jobs[job].description);
-        $(".work-entry:last").append(formattedDescription);
-    }
-
-   
-}();
-projects.display = function() {
-    for (project in projects.projects) {
-        $('#projects').append(HTMLprojectStart);
-
-        var formattedProjectTitle = HTMLprojectTitle.replace("%data%", projects.projects[project].title);
-        $('.project-entry:last').append(formattedProjectTitle);
-
-        var formattedProjectDate = HTMLprojectDates.replace("%data%", projects.projects[project].dates);
-        $('.project-entry:last').append(formattedProjectDate);
-
-        var formattedProjectDescription = HTMLprojectDescription.replace("%data%", projects.projects[project].description);
-        $('.project-entry:last').append(formattedProjectDescription);
-
-        var formattedImage = HTMLprojectImage.replace("%data%", projects.projects[project].images);
-        $('.project-entry:last').append(formattedImage);
-    }
-}();
-
-education.display = function() {
-    for (school in education.schools) {
-        $('#education').append(HTMLschoolStart);
-
-        var formattedSchoolName = HTMLschoolName.replace("%data%", education.schools[school].name);
-        var formattedSchoolDegree = HTMLschoolDegree.replace("%data%", education.schools[school].degree);
-        var formattedSchoolNameDegree = formattedSchoolName + " " + formattedSchoolDegree;
-        formattedSchoolNameDegree = formattedSchoolNameDegree.replace("#", education.schools[school].url);
-        $('.education-entry:last').append(formattedSchoolNameDegree);
-
-        var formattedSchoolDate = HTMLschoolDates.replace("%data%", education.schools[school].date);
-        $('.education-entry:last').append(formattedSchoolDate);
-
-        var formattedSchoolLocation = HTMLschoolLocation.replace("%data%", education.schools[school].location);
-        $('.education-entry:last').append(formattedSchoolLocation);
-
-        var formattedSchoolMajor = HTMLschoolMajor.replace("%data%", education.schools[school].majors);
-        $('.education-entry:last').append(formattedSchoolMajor);
-    }
-    $('.education-entry:last').append(HTMLonlineClasses);
-    for (onlineCourses in education.onlineCourses) {
-
-        var formattedOnlineTitle = HTMLonlineTitle.replace("%data%", education.onlineCourses[onlineCourses].title);
-        var formattedOnlineSchool = HTMLonlineSchool.replace("%data%", education.onlineCourses[onlineCourses].school);
-        var formattedSchoolTitle = formattedOnlineTitle + " " + formattedOnlineSchool;
-        formattedSchoolTitle = formattedSchoolTitle.replace("#", education.onlineCourses[onlineCourses].url);
-        $('.education-entry:last').append(formattedSchoolTitle);
-
-        var formattedOnlineSchoolDate = HTMLonlineDates.replace("%data%", education.onlineCourses[onlineCourses].date);
-        $('.education-entry:last').append(formattedOnlineSchoolDate);
-
-        var formattedUrl = HTMLonlineURL.replace("%data%", education.onlineCourses[onlineCourses].url);
-        formattedUrl = formattedUrl.replace("%#%", education.onlineCourses[onlineCourses].url);
-        $('.education-entry:last').append(formattedUrl)
-
-    }
-}();
 
 $("#mapDiv").append(googleMap);

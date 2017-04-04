@@ -44,6 +44,7 @@ h3 {
   font-size: 20px;
   color: #000;
   line-height: 22px;
+     
 }
 
 h4 {
@@ -61,7 +62,7 @@ h5 {
 
 }
 .hh3{
-    padding: 10px 0% ;
+    padding: 10px 5% ;
 }
 
 
@@ -223,6 +224,6 @@ span {
   }
 }
 .proImg{
-    height: 200px;
-    width: 400px;
+    height:inherit;
+    width: inherit;
 }
